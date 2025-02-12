@@ -46,24 +46,24 @@ int main(void) {
     unsigned long long idle1, total1, idle2, total2;
     setenv("TERM", "xterm", 1);
 
-    // Get first CPU usage snapshot
     while (1){
 
         get_cpu_times(&idle1, &total1);
         clear_screen();
-        get_cpu_times(&idle2, &total2); // Get second snapshot
+        get_cpu_times(&idle2, &total2);
 
         // Calculate CPU usage percentage
         double cpu_usage = (1.0 - (double)(idle2 - idle1) / (total2 - total1)) * 100.0;
 
         int number_bars = (int)cpu_usage / 5;
+        if (number_bars < 1){
+        	number_bars = 1;
+        }
         int number_spaces = 20 - number_bars;
 
         printf("CPU: ");
         printf("0%%- ");
-        if (number_bars < 1){
-        	printf("#");
-        }
+
         for (int i = 0; i < number_bars;i++){
         	printf("# ");
         }
